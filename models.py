@@ -31,3 +31,12 @@ class Task(db.Model):
 
     def __repr__(self):
         return f"<Task id={self.id} title='{self.title}' status={self.status}>"
+    
+    def to_dict(self):
+        """Convert task to dictionary."""
+        return {
+            "id": self.id,
+            "title": self.title,
+            "status": self.status,
+            "user_id": self.user_id
+        }
