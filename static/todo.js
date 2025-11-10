@@ -1,3 +1,14 @@
+// toggle task completion status
+function toggleTaskStatus(taskId) {
+  console.log(`Toggling status for task with ID: ${taskId}`);
+  fetch(`/api/v1/tasks/${taskId}`, { method: 'PATCH' })
+    .then(response => {
+      if (response.ok) {
+        const taskElement = document.getElementById(`task-${taskId}`);
+        taskElement.classList.toggle('completed');
+      }
+    });
+}
 
 // add item to todo list
 function addTaskToList(task) {

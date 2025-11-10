@@ -22,7 +22,6 @@ def todo():
     #return render_template('todo.html', tasks=tasks)
     return render_template('todo.html')
 
-
 @main_blueprint.route('/api/v1/tasks', methods=['GET'])
 @login_required
 def api_get_tasks():
@@ -42,19 +41,18 @@ def api_create_task():
         "task": new_task.to_dict()
     }, 201
 
-@main_blueprint.route('/check/<int:task_id>')
+@main_blueprint.route('/api/v1/tasks/<int:task_id>', methods=['PATCH'])
 @login_required
-def check(task_id):
+def api_toggle_task(task_id):
     task = Task.query.get(task_id)
 
     if task is None:
-        return redirect(url_for('main.todo'))
-    
+        return {"error": "Task not found"}, 404
+
     task.toggle()
     db.session.commit()
 
-    return redirect(url_for('main.todo'))
-
+    return {"task": task.to_dict()}, 200
 
 @main_blueprint.route('/remove/<int:task_id>')
 @login_required
